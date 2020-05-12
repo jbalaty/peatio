@@ -32,10 +32,8 @@ module Workers
               break unless running
 
               logger.info { "Started processing #{bc.key} block number #{block_id}." }
-              ActiveRecord::Base.transaction do
-                block_json = bc_service.process_block(block_id)
-                bc_service.update_height(block_id)
-              end
+              block_json = bc_service.process_block(block_id)
+              bc_service.update_height(block_id)
               logger.info { "Fetch #{block_json.transactions.count} transactions in block number #{block_id}." }
               logger.info { "Finished processing #{bc.key} block number #{block_id}." }
             end
